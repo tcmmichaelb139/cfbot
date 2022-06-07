@@ -7,6 +7,6 @@
 @layer base {
     html,
     body {
-        @apply p-0 m-0 font-mono font-medium;
+        @apply bg-neutral-900 p-0 m-0 font-mono font-medium;
     }
 }

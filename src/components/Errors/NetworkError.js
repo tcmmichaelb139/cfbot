@@ -1,9 +1,9 @@
-function ApiError() {
+function NetworkError() {
     return (
         <div className="text-neutral-400 h-screen flex items-center justify-center text-4xl">
-            API Error
+            Network Error
         </div>
     );
 }
 
-export default ApiError;
+export default NetworkError;

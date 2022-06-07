@@ -10,16 +10,10 @@ function UserTagGraph(props) {
         const contestId = problem.problem.contestId;
         const index = problem.problem.index;
         if (problem.verdict === "OK") {
-            if (
-                solveNumTags[contestId] == NaN ||
-                solveNumTags[contestId] == undefined
-            ) {
+            if (solveNumTags[contestId] == undefined) {
                 solveNumTags[contestId] = {};
             }
-            if (
-                solveNumTags[contestId][index] == NaN ||
-                solveNumTags[contestId][index] == undefined
-            ) {
+            if (solveNumTags[contestId][index] == undefined) {
                 solveNumTags[contestId][index] = 0;
             }
             if (solveNumTags[contestId][index] > 0) {
@@ -28,8 +22,7 @@ function UserTagGraph(props) {
             }
             solveNumTags[contestId][index]++;
             for (let tag of problem.problem.tags) {
-                if (numTags[tag] == NaN || numTags[tag] == undefined)
-                    numTags[tag] = 0;
+                if (numTags[tag] == undefined) numTags[tag] = 0;
                 numTags[tag]++;
                 if (numTags[tag] == undefined) console.log(tag, numTags[tag]);
             }
@@ -70,6 +63,21 @@ function UserTagGraph(props) {
     const options = {
         responsive: true,
         maintainAspectRatio: false,
+        devicePixelRatio: 1.5,
+        scales: {
+            y: {
+                title: {
+                    display: true,
+                    text: "Number solved",
+                },
+            },
+            x: {
+                title: {
+                    display: true,
+                    text: "Tag",
+                },
+            },
+        },
         plugins: {
             legend: {
                 position: "top",

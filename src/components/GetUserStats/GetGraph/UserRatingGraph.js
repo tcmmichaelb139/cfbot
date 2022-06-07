@@ -32,8 +32,20 @@ function UserRatingGraph(props) {
     const options = {
         responsive: true,
         maintainAspectRatio: false,
-        interaction: {
-            mode: "index",
+        devicePixelRatio: 1.5,
+        scales: {
+            y: {
+                title: {
+                    display: true,
+                    text: "Rating",
+                },
+            },
+            x: {
+                title: {
+                    display: true,
+                    text: "Date : Contest ID",
+                },
+            },
         },
         plugins: {
             legend: {

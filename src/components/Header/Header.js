@@ -2,7 +2,7 @@ import Link from "next/link";
 
 function Header() {
     return (
-        <div className="fixed h-screen w-[16rem] flex flex-col items-start justify-start bg-gray-900 text-white text-xl p-10">
+        <div className="fixed h-screen w-[16rem] flex flex-col items-start justify-start bg-neutral-800/80 text-neutral-300 text-xl p-10">
             {/* Codeforces Bot Home link */}
             <div className="font-bold mb-10">
                 <Link href="/">Codeforces Bot</Link>
@@ -21,7 +21,9 @@ function Header() {
             </nav>
             {/* Github link */}
             <div className="mt-auto">
-                <a href="#">Github</a>
+                <Link href="https://github.com/tcmmichaelb139/cfbot">
+                    Github
+                </Link>
             </div>
         </div>
     );

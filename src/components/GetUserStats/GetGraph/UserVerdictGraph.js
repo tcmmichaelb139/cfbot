@@ -6,11 +6,10 @@ function UserVerdictGraph(props) {
     let allVerdicts = {};
 
     for (const problem of userStatus) {
-        if (isNaN(allVerdicts[problem.verdict]))
+        if (allVerdicts[problem.verdict] == undefined)
             allVerdicts[problem.verdict] = 0;
         allVerdicts[problem.verdict]++;
     }
-    console.log(allVerdicts);
 
     let verdicts = [];
     let numVerdicts = [];
@@ -73,9 +72,10 @@ function UserVerdictGraph(props) {
     const options = {
         responsive: true,
         maintainAspectRatio: false,
+        devicePixelRatio: 1.5,
         plugins: {
             legend: {
-                position: "bottom",
+                position: "right",
             },
             title: {
                 display: true,
