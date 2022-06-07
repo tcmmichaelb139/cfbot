@@ -21,11 +21,7 @@ ChartJS.register(
 );
 
 function LineChart(props) {
-    return (
-        <div className="mx-[15%]">
-            <Line data={props.data} options={props.options} height={300} />
-        </div>
-    );
+    return <Line data={props.data} options={props.options} />;
 }
 
 export default LineChart;
