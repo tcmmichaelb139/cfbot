@@ -14,7 +14,6 @@ import NetworkError from "../Errors/NetworkError";
 
 // defaults
 defaults.font.family = "'Fira Code', monospace";
-defaults.font.size = "13px";
 defaults.color = "rgba(115, 115, 115, 1)"; // tailwind neutral 500
 defaults.borderColor = "rgba(115, 115, 115, 0.2)"; // tailwind neutral 500
 defaults.plugins.title.color = "rgba(163, 163, 163, 0.8)"; // tailwind neutral 400

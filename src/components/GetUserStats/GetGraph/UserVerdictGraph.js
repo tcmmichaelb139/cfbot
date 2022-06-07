@@ -69,6 +69,9 @@ function UserVerdictGraph(props) {
             },
         ],
     };
+
+    console.log(allData);
+
     const options = {
         responsive: true,
         maintainAspectRatio: false,
