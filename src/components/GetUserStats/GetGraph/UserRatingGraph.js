@@ -10,10 +10,9 @@ import {
     brushX,
     timeParse,
     extent,
-    zoom,
-    zoomTransform,
     bisectCenter,
     pointer,
+    timeFormat,
 } from "d3";
 import useResizeObserver from "../../Hooks/ResizeObserver";
 
@@ -36,6 +35,7 @@ function UserRatingGraph(props) {
                 rating: contest.newRating,
                 date: timeParse("%Q")(contest.ratingUpdateTimeSeconds * 1000),
                 contestName: contest.contestName,
+                contestId: contest.contestId,
             };
         });
 
@@ -73,8 +73,13 @@ function UserRatingGraph(props) {
         // axis
         const yNumberOfTicks = parseInt((Math.max(...rating) + 999) / 500);
 
+        const [xFirstDate, xSecondDate] = extent(date);
+
+        xFirstDate.setDate(xFirstDate.getDate() - 30);
+        xSecondDate.setDate(xSecondDate.getDate() + 30);
+
         const xScale = scaleTime()
-            .domain(extent(date))
+            .domain([xFirstDate, xSecondDate])
             .range([Margin.left, innerWidth]);
 
         if (currentZoomState) {
@@ -120,7 +125,7 @@ function UserRatingGraph(props) {
         svg.append("text")
             .attr("class", "xLabel")
             .attr("text-anchor", "end")
-            .attr("x", innerWidth / 2)
+            .attr("x", innerWidth)
             .attr("y", Height - (Margin.bottom / 5) * 3)
             .attr("fill", "rgba(163, 163, 163, 0.8)") // tailwind neutral 500
             .attr("font-size", 13)
@@ -134,7 +139,7 @@ function UserRatingGraph(props) {
             .attr("text-anchor", "end")
             .attr("transform", "rotate(-90)")
             .attr("y", Margin.left / 3)
-            .attr("x", (-innerHeight / 5) * 2)
+            .attr("x", 0)
             .attr("fill", "rgba(163, 163, 163, 0.8)") // tailwind neutral 500
             .attr("font-size", 13)
             .style("font-weight", 500)
@@ -164,6 +169,7 @@ function UserRatingGraph(props) {
             .join("circle")
             .attr("class", "dots")
             .attr("stroke", "#10b981")
+            .attr("fill", "#171717") // tailwind neutral 900
             .attr("r", 2)
             .attr("cx", (value) => xScale(value.date))
             .attr("cy", (value) => yScale(value.rating));
@@ -175,15 +181,135 @@ function UserRatingGraph(props) {
         const tooltip = svg
             .append("g")
             .attr("class", "tooltip")
-            .style("pointer-events", "none");
+            .style("display", "none");
 
-        svgContent
-            .on("pointerenter pointermove", (value) => {
-                console.log(value);
-            })
-            .on("pointerleave", (value) => {
-                console.log(value);
-            });
+        svg.on("pointerenter pointermove", (event) => {
+            if (event.target.tagName == "rect") {
+                // inside chart
+                const index = bisectCenter(
+                    date,
+                    xScale.invert(pointer(event)[0])
+                );
+                tooltip
+                    .style("display", null)
+                    .attr(
+                        "transform",
+                        "translate(" +
+                            xScale(allData[index].date) +
+                            ", " +
+                            yScale(allData[index].rating) +
+                            ")"
+                    );
+
+                // get width of contest name
+                function getTextWidth(text, font) {
+                    const canvas = document.createElement("canvas");
+                    const context = canvas.getContext("2d");
+
+                    context.font = font || getComputedStyle(document.body).font;
+
+                    return context.measureText(text).width;
+                }
+
+                const textWidth = Math.max(
+                    getTextWidth(
+                        allData[index].contestName,
+                        "300 12px Fira Code, monospace"
+                    ),
+                    getTextWidth(
+                        "Contest ID: " + allData[index].contestId,
+                        "300 12px Fira Code, monospace"
+                    )
+                );
+
+                // expand dot
+
+                tooltip.selectAll(".tooltipDot").remove();
+
+                tooltip
+                    .append("circle")
+                    .attr("class", "tooltipDot")
+                    .attr("stroke", "#10b981")
+                    .attr("fill", "#171717") // tailwind neutral 900
+                    .attr("r", 4);
+
+                // creating tooltip box
+
+                tooltip.selectAll(".tooltipRect").remove();
+
+                tooltip
+                    .append("rect")
+                    .attr("class", "tooltipRect")
+                    .attr("width", textWidth + 20)
+                    .attr("height", 80)
+                    .attr("x", -(textWidth + 20) / 2)
+                    .attr("y", 5)
+                    .attr("stroke", "#525252")
+                    .attr("fill", "#171717");
+
+                // add rating
+
+                tooltip.selectAll(".rating").remove();
+
+                tooltip
+                    .append("text")
+                    .attr("class", "rating")
+                    .attr("x", -textWidth / 2)
+                    .attr("y", 25)
+                    .style("fill", "rgba(163, 163, 163, 0.8)") // tailwind neutral 500
+                    .text("Rating: " + allData[index].rating);
+                // adding contest name
+
+                tooltip.selectAll(".contestName").remove();
+
+                tooltip
+                    .append("text")
+                    .attr("class", "contestName")
+                    .attr("x", -textWidth / 2)
+                    .attr("y", 40)
+                    .style("fill", "rgba(163, 163, 163, 0.8)") // tailwind neutral 500
+                    .text(() => {
+                        let newContestName = allData[index].contestName;
+                        if (newContestName.length > 15) {
+                        }
+
+                        return newContestName;
+                    });
+
+                // contest ID
+
+                tooltip.selectAll(".contestId").remove();
+
+                tooltip
+                    .append("text")
+                    .attr("class", "contestId")
+                    .attr("x", -textWidth / 2)
+                    .attr("y", 55)
+                    .style("fill", "rgba(163, 163, 163, 0.8)") // tailwind neutral 500
+                    .text("Contest ID: " + allData[index].contestId);
+
+                // add date
+
+                tooltip.selectAll(".date").remove();
+
+                tooltip
+                    .append("text")
+                    .attr("class", "date")
+                    .style("fill", "rgba(163, 163, 163, 0.8)") // tailwind neutral 500
+                    .attr("x", -textWidth / 2)
+                    .attr("y", 70)
+                    .text(() => {
+                        const formatDate = timeFormat("%b %d, %Y");
+
+                        return formatDate(allData[index].date);
+                    });
+
+                tooltip.selectAll("text").attr("font-size", 12);
+            } else {
+                tooltip.style("display", "none");
+                tooltip.selectAll("*").remove();
+            }
+        });
 
         // brush zoom
 
@@ -230,11 +356,17 @@ function UserRatingGraph(props) {
                     .duration(animationTime)
                     .attr("cx", (value) => xScale(value.date))
                     .attr("cy", (value) => yScale(value.rating));
+
+                tooltip.selectAll("*").remove();
             });
 
         svg.selectAll(".brush").remove();
 
         svg.append("g").attr("class", "brush").call(brush);
+
+        svg.selectAll("rect.selection")
+            .attr("fill", "#262626")
+            .attr("stroke", "#525252");
 
         svg.on("dblclick", () => {
             xScale.domain(extent(date));
