@@ -1,7 +1,7 @@
 import Head from "next/head";
+
 import Header from "../components/Header";
 import GetUserStats from "../components/GetUserStats";
-import GetProblem from "../components/GetProblem";
 
 export default function Home() {
     return (
@@ -23,7 +23,6 @@ export default function Home() {
 
             <main className="ml-64">
                 <GetUserStats handle="tourist" />
-                {/* <GetProblem handle="tcmmichaelb139" /> */}
             </main>
         </>
     );

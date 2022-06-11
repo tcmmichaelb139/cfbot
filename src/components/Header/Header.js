@@ -2,7 +2,7 @@ import Link from "next/link";
 
 function Header() {
     return (
-        <div className="fixed h-screen w-[16rem] flex flex-col items-start justify-start bg-neutral-800/80 text-neutral-300 text-xl p-10">
+        <div className="fixed h-full w-[16rem] flex flex-col items-start justify-start bg-neutral-800/80 text-neutral-300 text-xl p-10">
             {/* Codeforces Bot Home link */}
             <div className="font-bold mb-10">
                 <Link href="/">Codeforces Bot</Link>
@@ -10,13 +10,10 @@ function Header() {
             {/* different links */}
             <nav className="">
                 <div className="mb-5">
-                    <Link href="/user-stats">User Stats</Link>
+                    <Link href="/getProblem">Get Problem</Link>
                 </div>
                 <div className="mb-5">
-                    <Link href="/get-problem">Get ___</Link>
-                </div>
-                <div className="mb-5">
-                    <Link href="#">Contests</Link>
+                    <Link href="/contests">Contests</Link>
                 </div>
             </nav>
             {/* Github link */}

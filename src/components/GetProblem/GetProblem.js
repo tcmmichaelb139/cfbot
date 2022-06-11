@@ -1,46 +1,112 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 import ApiError from "../Errors/ApiError";
 import UserNotFound from "../Errors/UserNotFound";
 
 function GetProblem(props) {
-    const [checkUserStatus, setCheckUserStatus] = useState();
+    const [problemsetProblems, setProblemsetProblems] = useState();
     const [userStatus, setUserStatus] = useState();
+    const [problemRating, setProblemRating] = useState();
 
     useEffect(() => {
-        fetch("https://codeforces.com/api/user.status?handle=" + props.handle)
-            .then(async (response) => {
-                if (!response.ok) {
-                    return Promise.reject();
-                }
-                return response.json();
+        setProblemRating(props.rating);
+    }, [props]);
+
+    useEffect(() => {
+        axios
+            .get("https://codeforces.com/api/problemset.problems")
+            .then((response) => {
+                setProblemsetProblems(response.data.result.problems);
             })
-            .then((data) => {
-                setCheckUserStatus(data);
-                setUserStatus(data.result);
-            })
-            .catch(() => {
-                setUserStatus("API Error");
+            .catch((error) => {
+                setProblemsetProblems(error.code);
             });
-    }, []);
+    }, [props]);
 
-    if (userStatus === "API Error") return <ApiError />;
+    useEffect(() => {
+        axios
+            .get(
+                "https://codeforces.com/api/user.status?handle=" + props.handle
+            )
+            .then((response) => {
+                setUserStatus(response.data.result);
+            })
+            .catch((error) => {
+                setUserStatus(error.code);
+            });
+    }, [props]);
 
-    if (checkUserStatus === undefined) return;
+    if (problemsetProblems === undefined || userStatus == undefined) return;
+    if (
+        problemsetProblems === "ERR_BAD_RESPONSE" ||
+        userStatus == "ERR_BAD_RESPONSE"
+    )
+        return <ApiError />;
+    if (
+        problemsetProblems === "ERR_BAD_REQUEST" ||
+        userStatus == "ERR_BAD_REQUEST"
+    )
+        return <UserNotFound />;
+    if (problemsetProblems === "ERR_NETWORK" || userStatus == "ERR_NETWORK")
+        return <NetworkError />;
 
-    if (checkUserStatus.status !== "OK") {
-        if (
-            checkUserStatus.comment ===
-            "handle: User " + props.handle + " not found"
-        )
-            return <UserNotFound />;
-        else return <ApiError />;
+    const tried = {};
+
+    for (const problem of userStatus) {
+        if (tried[problem.contestId] == undefined)
+            tried[problem.contestId] = {};
+        if (tried[problem.contestId][problem.problem.index] == undefined)
+            tried[problem.contestId][problem.problem.index] = 1;
     }
 
-    console.log(userStatus);
+    // Knuth Shuffle
+    function shuffle(array) {
+        let currentIndex = array.length,
+            randomIndex;
 
-    // do stuff with userStatus
-    return <>test</>;
+        // While there remain elements to shuffle.
+        while (currentIndex != 0) {
+            // Pick a remaining element.
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+
+            // And swap it with the current element.
+            [array[currentIndex], array[randomIndex]] = [
+                array[randomIndex],
+                array[currentIndex],
+            ];
+        }
+
+        return array;
+    }
+
+    const shuffledProblems = shuffle(problemsetProblems);
+
+    let problemChosen;
+
+    for (let problem of shuffledProblems) {
+        if (
+            problem.rating == problemRating &&
+            (tried[problem.contestId] == undefined ||
+                tried[problem.contestId] == undefined)
+        ) {
+            problemChosen =
+                "https://codeforces.com/problemset/problem/" +
+                problem.contestId +
+                "/" +
+                problem.index;
+            break;
+        }
+    }
+
+    return (
+        <>
+            <a href={problemChosen} target="_blank" rel="noopener noreferrer">
+                Problem Link
+            </a>
+        </>
+    );
 }
 
 export default GetProblem;

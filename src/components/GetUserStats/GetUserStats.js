@@ -25,7 +25,7 @@ function GetUserStats(props) {
             .catch((error) => {
                 setUserRating(error.code);
             });
-    }, []);
+    }, [props]);
 
     useEffect(() => {
         axios
@@ -38,7 +38,7 @@ function GetUserStats(props) {
             .catch((error) => {
                 setUserStatus(error.code);
             });
-    }, []);
+    }, [props]);
 
     if (userRating === undefined || userStatus == undefined) return;
     if (userRating === "ERR_BAD_RESPONSE" || userStatus === "ERR_BAD_RESPONSE")
