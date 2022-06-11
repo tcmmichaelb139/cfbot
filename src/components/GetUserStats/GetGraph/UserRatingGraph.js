@@ -425,7 +425,7 @@ function UserRatingGraph(props) {
     return (
         <>
             <div ref={wrapperRef} className="h-full">
-                <svg ref={svgRef} className="h-full"></svg>
+                <svg ref={svgRef} className="h-full pt-0"></svg>
             </div>
         </>
     );
