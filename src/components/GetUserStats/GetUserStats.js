@@ -56,7 +56,7 @@ function GetUserStats(props) {
                     <UserVerdictGraph handle={props.handle} data={userStatus} />
                 </div>
             </div> */}
-            <div className="bg-neutral-900 border-2 shadow-md h-96">
+            <div className="bg-neutral-900 shadow-md h-96">
                 <UserRatingGraph handle={props.handle} data={userRating} />
             </div>
             {/* <div className="bg-neutral-900 shadow-md h-96 m-1 p-[1%]">
