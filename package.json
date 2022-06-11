@@ -10,10 +10,9 @@
     },
     "dependencies": {
         "axios": "^0.27.2",
-        "chart.js": "^3.8.0",
+        "d3": "^7.4.4",
         "next": "12.1.6",
         "react": "18.1.0",
-        "react-chartjs-2": "^4.1.0",
         "react-dom": "18.1.0"
     },
     "devDependencies": {
@@ -21,6 +20,7 @@
         "eslint": "8.16.0",
         "eslint-config-next": "12.1.6",
         "postcss": "^8.4.14",
+        "resize-observer-polyfill": "^1.5.1",
         "tailwindcss": "^3.0.24"
     }
 }

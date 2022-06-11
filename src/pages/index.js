@@ -22,7 +22,7 @@ export default function Home() {
             <Header />
 
             <main className="ml-64">
-                <GetUserStats handle="tcmmichaelb139" />
+                <GetUserStats handle="tourist" />
                 {/* <GetProblem handle="tcmmichaelb139" /> */}
             </main>
         </>

@@ -1,8 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-import { defaults } from "chart.js";
-
 import UserRatingGraph from "./GetGraph/UserRatingGraph";
 import UserTagGraph from "./GetGraph/UserTagGraph";
 import UserVerdictGraph from "./GetGraph/UserVerdictGraph";
@@ -11,12 +9,6 @@ import UserProblemRatingGraph from "./GetGraph/UserProblemRatingGraph";
 import ApiError from "../Errors/ApiError";
 import UserNotFound from "../Errors/UserNotFound";
 import NetworkError from "../Errors/NetworkError";
-
-// defaults
-defaults.font.family = "'Fira Code', monospace";
-defaults.color = "rgba(115, 115, 115, 1)"; // tailwind neutral 500
-defaults.borderColor = "rgba(115, 115, 115, 0.2)"; // tailwind neutral 500
-defaults.plugins.title.color = "rgba(163, 163, 163, 0.8)"; // tailwind neutral 400
 
 function GetUserStats(props) {
     const [userRating, setUserRating] = useState();
@@ -58,24 +50,24 @@ function GetUserStats(props) {
         return <NetworkError />;
 
     return (
-        <div className="mx-[15%] mb-10">
-            <div className="">
+        <div className="mx-[5%] mb-10">
+            {/* <div className="">
                 <div className="bg-neutral-800/40 h-80 m-1 p-[1%]">
                     <UserVerdictGraph handle={props.handle} data={userStatus} />
                 </div>
-            </div>
-            <div className="bg-neutral-800/40 h-96 m-1 p-[1%]">
+            </div> */}
+            <div className="bg-neutral-900 shadow-md h-96">
                 <UserRatingGraph handle={props.handle} data={userRating} />
             </div>
-            <div className="bg-neutral-800/40 h-96 m-1 p-[1%]">
+            {/* <div className="bg-neutral-900 shadow-md h-96 m-1 p-[1%]">
                 <UserTagGraph handle={props.handle} data={userStatus} />
-            </div>
-            <div className="bg-neutral-800/40 h-96 m-1 p-[1%]">
+            </div> */}
+            {/* <div className="bg-neutral-900 shaodw-md h-96 m-1 p-[1%]">
                 <UserProblemRatingGraph
                     handle={props.handle}
                     data={userStatus}
                 />
-            </div>
+            </div> */}
         </div>
     );
 }

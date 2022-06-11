@@ -1,5 +1,3 @@
-import PieChart from "../../Charts/PieChart";
-
 function UserVerdictGraph(props) {
     const userStatus = props.data;
 

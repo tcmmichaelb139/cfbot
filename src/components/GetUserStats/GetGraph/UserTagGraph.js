@@ -1,10 +1,10 @@
-import BarChart from "../../Charts/BarChart";
+import { useState } from "react";
 
 function UserTagGraph(props) {
     const userStatus = props.data;
 
-    let numTags = {};
-    let solveNumTags = [];
+    const numTags = {};
+    const solveNumTags = [];
 
     for (const problem of userStatus) {
         const contestId = problem.problem.contestId;
@@ -31,65 +31,88 @@ function UserTagGraph(props) {
 
     // Sorting numTags
 
-    let sortedNumTagsArray = [];
+    const sortedNumTagsArray = [];
     for (const tag in numTags) sortedNumTagsArray.push([tag, numTags[tag]]);
 
     sortedNumTagsArray.sort((a, b) => {
         return b[1] - a[1];
     });
 
-    let tags = [];
-    let sortedNumTags = [];
+    const tags = [];
+    const sortedNumTags = [];
 
     for (const tag of sortedNumTagsArray) {
         tags.push(tag[0]);
         sortedNumTags.push(tag[1]);
     }
 
+    console.log(tags);
+    console.log(sortedNumTags);
     // create graph
-    const allData = {
-        labels: tags,
-        datasets: [
-            {
-                label: props.handle,
-                data: sortedNumTags,
-                backgroundColor: "rgba(16, 185, 129, .2)", // Tailwind emerald 500
-                borderColor: "rgba(16, 185, 129, 1)", // Tailwind emerald 500
-                borderWidth: 2,
-            },
-        ],
-    };
+    const [series, setSeries] = useState([
+        {
+            name: "Number solved",
+            data: sortedNumTags,
+        },
+    ]);
 
-    const options = {
-        responsive: true,
-        maintainAspectRatio: false,
-        devicePixelRatio: 1.5,
-        scales: {
-            y: {
-                title: {
-                    display: true,
-                    text: "Number solved",
-                },
+    const [options, setOptions] = useState({
+        chart: {
+            id: "Rating Chart",
+            stacked: false,
+            fontFamily: "Fira Code, monospace",
+            foreColor: "#525252", // tailwind neutral 600
+            zoom: {
+                type: "x",
+                enabled: true,
+                autoScaleYaxis: true,
             },
-            x: {
-                title: {
-                    display: true,
-                    text: "Tag",
+            toolbar: {
+                autoSelected: "zoom",
+                tools: {
+                    zoomin: false,
+                    zoomout: false,
                 },
             },
         },
-        plugins: {
-            legend: {
-                position: "top",
+        title: {
+            text: "Solved Problem Tags: " + props.handle,
+            style: {
+                fontWeight: "bold",
+                color: "#737373", // tailwind neutral 500
             },
+        },
+        grid: {
+            borderColor: "#262626",
+            padding: {
+                // left: 40,
+                bottom: 40,
+            },
+        },
+        colors: ["#10b981"], // tailwind emerald 500
+        yaxis: {
             title: {
-                display: true,
-                text: "Solved Problem Tags: " + props.handle,
+                text: "Number Solved",
             },
         },
-    };
+        xaxis: {
+            title: {
+                text: "Tags",
+            },
+            axisBorder: {
+                color: "#525252",
+            },
+            axisTicks: {
+                color: "#525252",
+            },
+            tooltip: {
+                enabled: false,
+            },
+            categories: tags,
+        },
+    });
 
-    return <BarChart data={allData} options={options} />;
+    return <BarChart series={series} options={options} />;
 }
 
 export default UserTagGraph;

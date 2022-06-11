@@ -1,6 +1,3 @@
-import BarChart from "../../Charts/BarChart";
-import LineChart from "../../Charts/LineChart";
-
 function UserProblemRatingGraph(props) {
     const userStatus = props.data;
 
