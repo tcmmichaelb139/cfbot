@@ -111,8 +111,6 @@ function UserTagGraph(props) {
             categories: tags,
         },
     });
-
-    return <BarChart series={series} options={options} />;
 }
 
 export default UserTagGraph;

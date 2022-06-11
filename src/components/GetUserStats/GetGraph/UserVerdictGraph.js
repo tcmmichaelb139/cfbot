@@ -84,8 +84,6 @@ function UserVerdictGraph(props) {
             },
         },
     };
-
-    return <PieChart data={allData} options={options} />;
 }
 
 export default UserVerdictGraph;

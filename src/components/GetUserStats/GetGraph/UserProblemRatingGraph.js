@@ -112,8 +112,6 @@ function UserProblemRatingGraph(props) {
             },
         },
     };
-
-    return <BarChart data={data} options={options} />;
 }
 
 export default UserProblemRatingGraph;
