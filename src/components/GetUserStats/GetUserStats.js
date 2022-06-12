@@ -9,6 +9,7 @@ import UserProblemRatingGraph from "./GetGraph/UserProblemRatingGraph";
 import ApiError from "../Errors/ApiError";
 import UserNotFound from "../Errors/UserNotFound";
 import NetworkError from "../Errors/NetworkError";
+import UserZeroContents from "../Errors/UserZeroContests";
 
 function GetUserStats(props) {
     const [userRating, setUserRating] = useState();
@@ -42,28 +43,27 @@ function GetUserStats(props) {
     }, [props]);
 
     useEffect(() => {
-        if (
-            userRating === undefined ||
+        if (userRating === undefined || userStatus == undefined) null;
+        else if (
             userRating === "ERR_BAD_RESPONSE" ||
-            userRating === "ERR_BAD_REQUEST" ||
-            userRating === "ERR_NETWORK"
+            userStatus === "ERR_BAD_RESPONSE"
         )
-            return;
-        setJsxCharts(
-            <div className="bg-neutral-900 shadow-md h-96">
-                <UserRatingGraph handle={props.handle} data={userRating} />
-            </div>
-        );
+            setJsxCharts(<ApiError />);
+        else if (
+            userRating === "ERR_BAD_REQUEST" ||
+            userStatus === "ERR_BAD_REQUEST"
+        )
+            setJsxCharts(<UserNotFound />);
+        else if (userRating === "ERR_NETWORK" || userStatus === "ERR_NETWORK")
+            setJsxCharts(<NetworkError />);
+        else if (!userRating.length) setJsxCharts(<UserZeroContents />);
+        else
+            setJsxCharts(
+                <div className="bg-neutral-900 shadow-md h-96">
+                    <UserRatingGraph handle={props.handle} data={userRating} />
+                </div>
+            );
     }, [props, userRating]);
-
-    if (userRating === undefined || userStatus == undefined) return;
-    if (userRating === "ERR_BAD_RESPONSE" || userStatus === "ERR_BAD_RESPONSE")
-        return <ApiError />;
-    if (userRating === "ERR_BAD_REQUEST" || userStatus === "ERR_BAD_REQUEST")
-        return <UserNotFound />;
-
-    if (userRating === "ERR_NETWORK" || userStatus === "ERR_NETWORK")
-        return <NetworkError />;
 
     return (
         <div className="mx-[5%] my-10">

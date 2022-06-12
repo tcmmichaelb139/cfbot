@@ -80,8 +80,6 @@ function UserRatingGraph(props) {
 
         const [xFirstDate, xSecondDate] = extent(date);
 
-        if (extent(date) === undefined) return;
-
         xFirstDate.setDate(xFirstDate.getDate() - 30);
         xSecondDate.setDate(xSecondDate.getDate() + 30);
 
