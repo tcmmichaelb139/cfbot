@@ -70,7 +70,7 @@ function GetUserStats(props) {
                     />
                 </div>
             );
-    }, [props, userRating]);
+    }, [props, userRating, userStatus]);
 
     return <div className="">{jsxCharts}</div>;
 }

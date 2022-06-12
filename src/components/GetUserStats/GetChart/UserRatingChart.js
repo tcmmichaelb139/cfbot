@@ -417,7 +417,7 @@ function UserRatingChart(props) {
         svg.selectAll("text")
             .style("font-family", "'Fira Code', monospace")
             .attr("font-weight", "300");
-    }, [props, data, currentZoomState, animationTime, dimensions]);
+    }, [data, currentZoomState, animationTime, dimensions]);
 
     return (
         <>

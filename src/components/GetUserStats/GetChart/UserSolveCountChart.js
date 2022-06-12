@@ -9,9 +9,6 @@ import {
     scaleTime,
     timeParse,
     extent,
-    bisectCenter,
-    pointer,
-    timeFormat,
     curveStepAfter,
 } from "d3";
 import useResizeObserver from "../../Hooks/ResizeObserver";
@@ -23,8 +20,7 @@ function UserSolveCountChart(props) {
     const dimensions = useResizeObserver(wrapperRef);
 
     useEffect(() => {
-        let tempProps = props.data;
-        setData(tempProps);
+        setData(props.data);
     }, [props]);
 
     useEffect(() => {
@@ -183,7 +179,7 @@ function UserSolveCountChart(props) {
         svg.selectAll("text")
             .style("font-family", "'Fira Code', monospace")
             .attr("font-weight", "300");
-    }, [props, data, dimensions]);
+    }, [data, dimensions]);
 
     return (
         <>
