@@ -1,10 +1,13 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-import UserRatingGraph from "./GetGraph/UserRatingGraph";
-import UserTagGraph from "./GetGraph/UserTagGraph";
-import UserVerdictGraph from "./GetGraph/UserVerdictGraph";
-import UserProblemRatingGraph from "./GetGraph/UserProblemRatingGraph";
+// line charts
+import UserRatingChart from "./GetChart/UserRatingChart";
+import UserSolveCountChart from "./GetChart/UserSolveCountChart";
+
+import UserTagChart from "./GetChart/UserTagChart";
+import UserVerdictChart from "./GetChart/UserVerdictChart";
+import UserProblemRatingChart from "./GetChart/UserProblemRatingChart";
 
 import ApiError from "../Errors/ApiError";
 import UserNotFound from "../Errors/UserNotFound";
@@ -60,30 +63,16 @@ function GetUserStats(props) {
         else
             setJsxCharts(
                 <div className="bg-neutral-900 shadow-md h-96">
-                    <UserRatingGraph handle={props.handle} data={userRating} />
+                    <UserRatingChart handle={props.handle} data={userRating} />
+                    <UserSolveCountChart
+                        handle={props.handle}
+                        data={userStatus}
+                    />
                 </div>
             );
     }, [props, userRating]);
 
-    return (
-        <div className="mx-[5%] my-10">
-            {jsxCharts}
-            {/* <div className="">
-                <div className="bg-neutral-800/40 h-80 m-1 p-[1%]">
-                    <UserVerdictGraph handle={props.handle} data={userStatus} />
-                </div>
-            </div> */}
-            {/* <div className="bg-neutral-900 shadow-md h-96 m-1 p-[1%]">
-                <UserTagGraph handle={props.handle} data={userStatus} />
-            </div> */}
-            {/* <div className="bg-neutral-900 shaodw-md h-96 m-1 p-[1%]">
-                <UserProblemRatingGraph
-                    handle={props.handle}
-                    data={userStatus}
-                />
-                </ */}
-        </div>
-    );
+    return <div className="">{jsxCharts}</div>;
 }
 
 export default GetUserStats;

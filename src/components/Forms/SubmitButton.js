@@ -3,7 +3,7 @@ function SubmitButton() {
         <>
             <button
                 type="submit"
-                className="border-[1px] border-neutral-800 rounded-md m-4 p-4 shadow-md"
+                className="border-[1px] border-neutral-800 rounded-md mx-4 p-4 shadow-md"
             >
                 Submit
             </button>

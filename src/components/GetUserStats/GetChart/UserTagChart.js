@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function UserTagGraph(props) {
+function UserTagChart(props) {
     const userStatus = props.data;
 
     const numTags = {};
@@ -50,4 +50,4 @@ function UserTagGraph(props) {
     console.log(sortedNumTags);
 }
 
-export default UserTagGraph;
+export default UserTagChart;

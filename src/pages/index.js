@@ -35,16 +35,18 @@ export default function Home() {
             <Header />
 
             <main className="ml-64">
-                <form onSubmit={onFormSubmit}>
-                    <input
-                        ref={userHandle}
-                        type="text"
-                        placeholder="Handle"
-                        className="bg-neutral-900 border-[1px] border-neutral-800 placeholder-neutral-600 rounded-md p-4 ml-[5%] mt-10 shadow-md"
-                    />
-                    <SubmitButton />
-                </form>
-                <div>{jsxCharts}</div>
+                <div className="m-4">
+                    <form onSubmit={onFormSubmit}>
+                        <input
+                            ref={userHandle}
+                            type="text"
+                            placeholder="Handle"
+                            className="bg-neutral-900 border-[1px] border-neutral-800 placeholder-neutral-600 rounded-md p-4 shadow-md"
+                        />
+                        <SubmitButton />
+                    </form>
+                    {jsxCharts}
+                </div>
             </main>
         </>
     );

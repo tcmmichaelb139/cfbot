@@ -1,4 +1,4 @@
-function UserProblemRatingGraph(props) {
+function UserProblemRatingChart(props) {
     const userStatus = props.data;
 
     let solvedRating = [];
@@ -49,4 +49,4 @@ function UserProblemRatingGraph(props) {
     }
 }
 
-export default UserProblemRatingGraph;
+export default UserProblemRatingChart;

@@ -1,4 +1,4 @@
-function UserVerdictGraph(props) {
+function UserVerdictChart(props) {
     const userStatus = props.data;
 
     let allVerdicts = {};
@@ -56,4 +56,4 @@ function UserVerdictGraph(props) {
     }
 }
 
-export default UserVerdictGraph;
+export default UserVerdictChart;

@@ -41,22 +41,24 @@ function GetProblemHome() {
             <Header />
 
             <main className="ml-64">
-                <form onSubmit={onFormSubmit}>
-                    <input
-                        ref={userHandle}
-                        type="text"
-                        placeholder="Handle"
-                        className="bg-neutral-900 border-[1px] border-neutral-800 placeholder-neutral-600 rounded-md p-4 m-4 shadow-md"
-                    />
-                    <input
-                        ref={problemRating}
-                        type="text"
-                        placeholder="Rating"
-                        className="bg-neutral-900 border-[1px] border-neutral-800 placeholder-neutral-600 rounded-md p-4 my-4 shadow-md"
-                    />
-                    <SubmitButton />
-                </form>
-                <div className="mx-4">{jsxGetProblem}</div>
+                <div className="">
+                    <form onSubmit={onFormSubmit}>
+                        <input
+                            ref={userHandle}
+                            type="text"
+                            placeholder="Handle"
+                            className="bg-neutral-900 border-[1px] border-neutral-800 placeholder-neutral-600 rounded-md p-4 m-4 shadow-md"
+                        />
+                        <input
+                            ref={problemRating}
+                            type="text"
+                            placeholder="Rating"
+                            className="bg-neutral-900 border-[1px] border-neutral-800 placeholder-neutral-600 rounded-md p-4 my-4 shadow-md"
+                        />
+                        <SubmitButton />
+                    </form>
+                    <div className="mx-4">{jsxGetProblem}</div>
+                </div>
             </main>
         </>
     );

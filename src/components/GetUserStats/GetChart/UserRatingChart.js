@@ -13,11 +13,10 @@ import {
     bisectCenter,
     pointer,
     timeFormat,
-    easeExpInOut,
 } from "d3";
 import useResizeObserver from "../../Hooks/ResizeObserver";
 
-function UserRatingGraph(props) {
+function UserRatingChart(props) {
     const [data, setData] = useState(props.data);
     const wrapperRef = useRef();
     const dimensions = useResizeObserver(wrapperRef);
@@ -41,6 +40,7 @@ function UserRatingGraph(props) {
                 date: timeParse("%Q")(contest.ratingUpdateTimeSeconds * 1000),
                 contestName: contest.contestName,
                 contestId: contest.contestId,
+                rank: contest.rank,
             };
         });
 
@@ -80,12 +80,9 @@ function UserRatingGraph(props) {
 
         const [xFirstDate, xSecondDate] = extent(date);
 
-        xFirstDate.setDate(xFirstDate.getDate() - 30);
-        xSecondDate.setDate(xSecondDate.getDate() + 30);
-
         const xScale = scaleTime()
             .domain([xFirstDate, xSecondDate])
-            .range([Margin.left, innerWidth]);
+            .range([Margin.left + 10, innerWidth - 10]);
 
         if (currentZoomState) {
             const newXScale = currentZoomState.rescaleX(xScale);
@@ -94,7 +91,7 @@ function UserRatingGraph(props) {
 
         const yScale = scaleLinear()
             .domain([0, parseInt((Math.max(...rating) + 999) / 500) * 500])
-            .range([innerHeight, 0]);
+            .range([innerHeight - 10, 10]);
 
         // axis lines
 
@@ -195,6 +192,7 @@ function UserRatingGraph(props) {
                     date,
                     xScale.invert(pointer(event)[0])
                 );
+
                 tooltip
                     .style("display", null)
                     .attr(
@@ -246,11 +244,30 @@ function UserRatingGraph(props) {
                     .append("rect")
                     .attr("class", "tooltipRect")
                     .attr("width", textWidth + 20)
-                    .attr("height", 80)
+                    .attr("height", 105)
                     .attr("x", -(textWidth + 20) / 2)
                     .attr("y", 5)
                     .attr("stroke", "#525252")
                     .attr("fill", "#171717");
+
+                // adding contest name
+
+                tooltip.selectAll(".contestName").remove();
+
+                tooltip
+                    .append("text")
+                    .attr("class", "contestName")
+                    .attr("x", -textWidth / 2)
+                    .attr("y", 25)
+                    .style("fill", "rgba(163, 163, 163, 0.8)") // tailwind neutral 500
+                    .style("font-weight", "500")
+                    .text(() => {
+                        let newContestName = allData[index].contestName;
+                        if (newContestName.length > 15) {
+                        }
+
+                        return newContestName;
+                    });
 
                 // add rating
 
@@ -260,26 +277,21 @@ function UserRatingGraph(props) {
                     .append("text")
                     .attr("class", "rating")
                     .attr("x", -textWidth / 2)
-                    .attr("y", 25)
+                    .attr("y", 45)
                     .style("fill", "rgba(163, 163, 163, 0.8)") // tailwind neutral 500
                     .text("Rating: " + allData[index].rating);
-                // adding contest name
 
-                tooltip.selectAll(".contestName").remove();
+                // add rank
+
+                tooltip.selectAll(".rank").remove();
 
                 tooltip
                     .append("text")
-                    .attr("class", "contestName")
+                    .attr("class", "rank")
                     .attr("x", -textWidth / 2)
-                    .attr("y", 40)
+                    .attr("y", 60)
                     .style("fill", "rgba(163, 163, 163, 0.8)") // tailwind neutral 500
-                    .text(() => {
-                        let newContestName = allData[index].contestName;
-                        if (newContestName.length > 15) {
-                        }
-
-                        return newContestName;
-                    });
+                    .text("Rank: " + allData[index].rank);
 
                 // contest ID
 
@@ -289,7 +301,7 @@ function UserRatingGraph(props) {
                     .append("text")
                     .attr("class", "contestId")
                     .attr("x", -textWidth / 2)
-                    .attr("y", 55)
+                    .attr("y", 75)
                     .style("fill", "rgba(163, 163, 163, 0.8)") // tailwind neutral 500
                     .text("Contest ID: " + allData[index].contestId);
 
@@ -302,7 +314,7 @@ function UserRatingGraph(props) {
                     .attr("class", "date")
                     .style("fill", "rgba(163, 163, 163, 0.8)") // tailwind neutral 500
                     .attr("x", -textWidth / 2)
-                    .attr("y", 70)
+                    .attr("y", 95)
                     .text(() => {
                         const formatDate = timeFormat("%b %d, %Y");
 
@@ -410,10 +422,10 @@ function UserRatingGraph(props) {
     return (
         <>
             <div ref={wrapperRef} className="h-full">
-                <svg ref={svgRef} className="h-full pt-0"></svg>
+                <svg ref={svgRef} className="h-full pt-0 translate-x-4"></svg>
             </div>
         </>
     );
 }
 
-export default UserRatingGraph;
+export default UserRatingChart;
