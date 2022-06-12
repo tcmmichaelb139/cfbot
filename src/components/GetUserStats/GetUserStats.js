@@ -42,7 +42,6 @@ function GetUserStats(props) {
     }, [props]);
 
     useEffect(() => {
-        console.log(userRating);
         if (
             userRating === undefined ||
             userRating === "ERR_BAD_RESPONSE" ||
@@ -55,7 +54,6 @@ function GetUserStats(props) {
                 <UserRatingGraph handle={props.handle} data={userRating} />
             </div>
         );
-        console.log(jsxCharts);
     }, [props, userRating]);
 
     if (userRating === undefined || userStatus == undefined) return;

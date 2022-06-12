@@ -30,7 +30,7 @@ function UserRatingGraph(props) {
     }, [props]);
 
     useEffect(() => {
-        if (data === undefined) return;
+        if (data === []) return;
         const rating = data.map((contest) => contest.newRating);
         const date = data.map((contest) => {
             return timeParse("%Q")(contest.ratingUpdateTimeSeconds * 1000);
