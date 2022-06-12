@@ -48,69 +48,6 @@ function UserTagGraph(props) {
 
     console.log(tags);
     console.log(sortedNumTags);
-    // create graph
-    const [series, setSeries] = useState([
-        {
-            name: "Number solved",
-            data: sortedNumTags,
-        },
-    ]);
-
-    const [options, setOptions] = useState({
-        chart: {
-            id: "Rating Chart",
-            stacked: false,
-            fontFamily: "Fira Code, monospace",
-            foreColor: "#525252", // tailwind neutral 600
-            zoom: {
-                type: "x",
-                enabled: true,
-                autoScaleYaxis: true,
-            },
-            toolbar: {
-                autoSelected: "zoom",
-                tools: {
-                    zoomin: false,
-                    zoomout: false,
-                },
-            },
-        },
-        title: {
-            text: "Solved Problem Tags: " + props.handle,
-            style: {
-                fontWeight: "bold",
-                color: "#737373", // tailwind neutral 500
-            },
-        },
-        grid: {
-            borderColor: "#262626",
-            padding: {
-                // left: 40,
-                bottom: 40,
-            },
-        },
-        colors: ["#10b981"], // tailwind emerald 500
-        yaxis: {
-            title: {
-                text: "Number Solved",
-            },
-        },
-        xaxis: {
-            title: {
-                text: "Tags",
-            },
-            axisBorder: {
-                color: "#525252",
-            },
-            axisTicks: {
-                color: "#525252",
-            },
-            tooltip: {
-                enabled: false,
-            },
-            categories: tags,
-        },
-    });
 }
 
 export default UserTagGraph;

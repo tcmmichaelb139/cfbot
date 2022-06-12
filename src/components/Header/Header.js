@@ -10,6 +10,9 @@ function Header() {
             {/* different links */}
             <nav className="">
                 <div className="mb-5">
+                    <Link href="/compare">Compare</Link>
+                </div>
+                <div className="mb-5">
                     <Link href="/getProblem">Get Problem</Link>
                 </div>
                 <div className="mb-5">

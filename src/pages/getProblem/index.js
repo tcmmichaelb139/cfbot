@@ -4,6 +4,8 @@ import { useState, useRef } from "react";
 import Header from "../../components/Header";
 import GetProblem from "../../components/GetProblem";
 
+import SubmitButton from "../../components/Forms/SubmitButton";
+
 function GetProblemHome() {
     const userHandle = useRef();
     const problemRating = useRef();
@@ -52,12 +54,7 @@ function GetProblemHome() {
                         placeholder="Rating"
                         className="bg-neutral-900 border-[1px] border-neutral-800 placeholder-neutral-600 rounded-md p-4 my-4 shadow-md"
                     />
-                    <button
-                        type="submit"
-                        className="border-[1px] border-neutral-800 rounded-md m-4 p-4 shadow-md"
-                    >
-                        Submit
-                    </button>
+                    <SubmitButton />
                 </form>
                 <div className="mx-4">{jsxGetProblem}</div>
             </main>

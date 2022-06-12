@@ -13,6 +13,7 @@ import {
     bisectCenter,
     pointer,
     timeFormat,
+    easeExpInOut,
 } from "d3";
 import useResizeObserver from "../../Hooks/ResizeObserver";
 
@@ -23,6 +24,10 @@ function UserRatingGraph(props) {
     const [currentZoomState, setCurrentZoomState] = useState();
     const svgRef = useRef();
     const [animationTime, setAnimationTime] = useState(500);
+
+    useEffect(() => {
+        setData(props.data);
+    }, [props]);
 
     useEffect(() => {
         const rating = data.map((contest) => contest.newRating);
@@ -394,33 +399,13 @@ function UserRatingGraph(props) {
                 .attr("cy", (value) => yScale(value.rating));
         });
 
-        // ctrl+drag panning
-
-        // const zoomBehavior = zoom()
-        //     .scaleExtent([1, 1])
-        //     .translateExtent([
-        //         [0, 0],
-        //         [innerWidth, innerHeight],
-        //     ])
-        //     .on("zoom", (event) => {
-        //         if (event.ctrlKey) {
-        //             console.log("lmao");
-        //         }
-        //     });
-
-        // svgContent.call(zoomBehavior);
-
-        // svgContent.on("drag", (event) => {
-        //     if (!event.altKey) return;
-        // });
-
         // change global stuff
 
         // fonts
         svg.selectAll("text")
             .style("font-family", "'Fira Code', monospace")
             .attr("font-weight", "300");
-    }, [data, currentZoomState, animationTime, dimensions]);
+    }, [props, data, currentZoomState, animationTime, dimensions]);
 
     return (
         <>

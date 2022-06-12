@@ -54,36 +54,6 @@ function UserVerdictGraph(props) {
             verdictBorderColor.push("rgba(115, 115, 115, 1)"); // tailwind neutral 500
         }
     }
-
-    const allData = {
-        labels: verdicts,
-        datasets: [
-            {
-                label: "Verdicts",
-                data: numVerdicts,
-                backgroundColor: verdictBackgroundColor,
-                borderColor: verdictBorderColor,
-                borderWidth: 2,
-            },
-        ],
-    };
-
-    console.log(allData);
-
-    const options = {
-        responsive: true,
-        maintainAspectRatio: false,
-        devicePixelRatio: 1.5,
-        plugins: {
-            legend: {
-                position: "right",
-            },
-            title: {
-                display: true,
-                text: "Submission Verdicts: " + props.handle,
-            },
-        },
-    };
 }
 
 export default UserVerdictGraph;
