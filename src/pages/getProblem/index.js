@@ -44,13 +44,13 @@ function GetProblemHome() {
                         ref={userHandle}
                         type="text"
                         placeholder="Handle"
-                        className="bg-neutral-900 border-[1px] border-neutral-800 rounded-md p-4 m-4 shadow-md"
+                        className="bg-neutral-900 border-[1px] border-neutral-800 placeholder-neutral-600 rounded-md p-4 m-4 shadow-md"
                     />
                     <input
                         ref={problemRating}
                         type="text"
                         placeholder="Rating"
-                        className="bg-neutral-900 border-[1px] border-neutral-800 rounded-md p-4 my-4 shadow-md"
+                        className="bg-neutral-900 border-[1px] border-neutral-800 placeholder-neutral-600 rounded-md p-4 my-4 shadow-md"
                     />
                     <button
                         type="submit"
