@@ -30,7 +30,6 @@ function UserRatingGraph(props) {
     }, [props]);
 
     useEffect(() => {
-        if (data === []) return;
         const rating = data.map((contest) => contest.newRating);
         const date = data.map((contest) => {
             return timeParse("%Q")(contest.ratingUpdateTimeSeconds * 1000);
@@ -80,6 +79,8 @@ function UserRatingGraph(props) {
         const yNumberOfTicks = parseInt((Math.max(...rating) + 999) / 500);
 
         const [xFirstDate, xSecondDate] = extent(date);
+
+        if (extent(date) === undefined) return;
 
         xFirstDate.setDate(xFirstDate.getDate() - 30);
         xSecondDate.setDate(xSecondDate.getDate() + 30);
