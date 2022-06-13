@@ -1,5 +1,6 @@
 import Head from "next/head";
-import { useState, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
+import axios from "axios";
 
 import Header from "../../components/Header";
 import GetProblem from "../../components/GetProblem";
@@ -7,9 +8,22 @@ import GetProblem from "../../components/GetProblem";
 import SubmitButton from "../../components/Forms/SubmitButton";
 
 function GetProblemHome() {
+    const [problemsetProblems, setProblemsetProblems] = useState();
+
     const userHandle = useRef();
     const problemRating = useRef();
     const [jsxGetProblem, setJsxGetProblem] = useState();
+
+    useEffect(() => {
+        axios
+            .get("https://codeforces.com/api/problemset.problems")
+            .then((response) => {
+                setProblemsetProblems(response.data.result.problems);
+            })
+            .catch((error) => {
+                setProblemsetProblems(error.code);
+            });
+    }, []);
 
     const onFormSubmit = (event) => {
         event.preventDefault();
@@ -18,6 +32,7 @@ function GetProblemHome() {
                 <GetProblem
                     handle={userHandle.current.value}
                     rating={problemRating.current.value}
+                    problemset={problemsetProblems}
                 />
             );
         }
