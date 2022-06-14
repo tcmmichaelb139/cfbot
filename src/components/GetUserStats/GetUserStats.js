@@ -74,15 +74,19 @@ function GetUserStats(props) {
             else if (!userRating.length) setJsxCharts(<UserZeroContents />);
             else {
                 setJsxCharts(
-                    <div className="bg-neutral-900 shadow-md h-96">
-                        <UserRatingChart
-                            handle={props.handle}
-                            data={userRating}
-                        />
-                        <UserSolveCountChart
-                            handle={props.handle}
-                            data={userStatus}
-                        />
+                    <div>
+                        <div className="bg-neutral-900 shadow-md h-96">
+                            <UserRatingChart
+                                handle={props.handle}
+                                data={userRating}
+                            />
+                        </div>
+                        <div className="bg-neutral-900 shadow-md h-96">
+                            <UserSolveCountChart
+                                handle={props.handle}
+                                data={userStatus}
+                            />
+                        </div>
                     </div>
                 );
             }
