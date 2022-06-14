@@ -75,13 +75,13 @@ function GetUserStats(props) {
             else {
                 setJsxCharts(
                     <div>
-                        <div className="bg-neutral-900 shadow-md h-96">
+                        <div className="bg-neutral-900 shadow-md h-96 mb-4">
                             <UserRatingChart
                                 handle={props.handle}
                                 data={userRating}
                             />
                         </div>
-                        <div className="bg-neutral-900 shadow-md h-96">
+                        <div className="bg-neutral-900 shadow-md h-96 mb-4">
                             <UserSolveCountChart
                                 handle={props.handle}
                                 data={userStatus}
