@@ -1,0 +1,4 @@
+* Codeforces Bot
+** Planned Features [0/2]
+- [ ] Collapsible graphs
+- [ ] Heatmap of problems solved
