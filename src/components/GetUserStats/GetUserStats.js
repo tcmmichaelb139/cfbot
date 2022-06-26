@@ -51,7 +51,7 @@ function GetUserStats(props) {
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
-      if (userRating === undefined || userStatus == undefined) null;
+      if (userRating === undefined || userStatus == undefined) setLoading(true);
       else if (
         userRating === "ERR_BAD_RESPONSE" ||
         userStatus === "ERR_BAD_RESPONSE"
@@ -64,8 +64,19 @@ function GetUserStats(props) {
         setJsxCharts(<UserNotFound />);
       else if (userRating === "ERR_NETWORK" || userStatus === "ERR_NETWORK")
         setJsxCharts(<NetworkError />);
-      else if (!userRating.length) setJsxCharts(<UserZeroContents />);
-      else {
+      else if (!userRating.length) {
+        setJsxCharts(
+          <div>
+            <UserZeroContents />
+            <div className="bg-neutral-900 shadow-md h-96 mb-4">
+              <UserSolveCountChart handle={props.handle} data={userStatus} />
+            </div>
+            <div className="bg-neutral-900 shadow-md h-96 mb-4">
+              <UserProblemRatingChart data={userStatus} />
+            </div>
+          </div>
+        );
+      } else {
         setJsxCharts(
           <div>
             <div className="bg-neutral-900 shadow-md h-96 mb-4">
@@ -74,11 +85,14 @@ function GetUserStats(props) {
             <div className="bg-neutral-900 shadow-md h-96 mb-4">
               <UserSolveCountChart handle={props.handle} data={userStatus} />
             </div>
+            <div className="bg-neutral-900 shadow-md h-96 mb-4">
+              <UserProblemRatingChart data={userStatus} />
+            </div>
           </div>
         );
       }
       setLoading(false);
-    }, 1000);
+    }, 2000);
   }, [props, userRating, userStatus]);
 
   return (

@@ -13,7 +13,7 @@ import {
 } from "d3";
 import useResizeObserver from "../../Hooks/ResizeObserver";
 
-function UserSolveCountChart(props) {
+function UserSolveCountHeatMap(props) {
   const [data, setData] = useState(props.data);
   const wrapperRef = useRef();
   const svgRef = useRef();
@@ -28,47 +28,26 @@ function UserSolveCountChart(props) {
 
     const solveCount = [];
 
-    const dateVar = new Date();
-
-    for (let i = 0; i < data.length; i++) {
-      data[i].creationTimeSeconds -= dateVar.getTimezoneOffset() * 60;
-      data[i].creationTimeSeconds -=
-        (data[i].creationTimeSeconds % 86400) - 86400;
-    }
-
-    let currentDate = data[0].creationTimeSeconds;
+    let currentDate =
+      data[0].creationTimeSeconds - (data[0].creationTimeSeconds % 86400);
     let currentValue = 0;
-
-    const solvedProblem = {};
 
     for (const problem of data) {
       if (problem.verdict === "OK") {
-        if (solvedProblem[problem.problem.contestId] == undefined)
-          solvedProblem[problem.problem.contestId] = {};
         if (
-          solvedProblem[problem.problem.contestId][problem.problem.index] ==
-          undefined
+          currentDate !=
+          problem.creationTimeSeconds - (problem.creationTimeSeconds % 86400)
         ) {
-          solvedProblem[problem.problem.contestId][problem.problem.index] = 1;
-          if (currentDate != problem.creationTimeSeconds) {
-            date.push(currentDate);
-            solveCount.push(currentValue);
-            currentDate = problem.creationTimeSeconds;
-            currentValue = 0;
-          }
-          currentValue++;
+          date.push(currentDate);
+          solveCount.push(currentValue);
+          currentDate =
+            problem.creationTimeSeconds - (problem.creationTimeSeconds % 86400);
         }
+        currentValue++;
       }
     }
 
-    date.push(currentDate);
-    solveCount.push(currentValue);
-
     date.reverse();
-    solveCount.reverse();
-
-    for (let i = 1; i < solveCount.length; i++)
-      solveCount[i] += solveCount[i - 1];
 
     const allData = [];
 
@@ -118,11 +97,11 @@ function UserSolveCountChart(props) {
 
     const xScale = scaleTime()
       .domain([xFirstDate, xSecondDate])
-      .range([Margin.left + 10, innerWidth]);
+      .range([Margin.left + 10, innerWidth - 10]);
 
     const yScale = scaleLinear()
       .domain([0, solveCount[solveCount.length - 1] + 10])
-      .range([innerHeight - 10, 0]);
+      .range([innerHeight - 10, 10]);
 
     // axis lines
 
@@ -215,4 +194,4 @@ function UserSolveCountChart(props) {
   );
 }
 
-export default UserSolveCountChart;
+export default UserSolveCountHeatMap;
