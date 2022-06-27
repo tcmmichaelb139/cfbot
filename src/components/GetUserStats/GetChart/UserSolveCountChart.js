@@ -100,7 +100,7 @@ function UserSolveCountChart(props) {
       .append("clipPath")
       .attr("id", "clip")
       .append("rect")
-      .attr("width", innerWidth - Margin.left)
+      .attr("width", innerWidth - Margin.left + 10)
       .attr("height", innerHeight)
       .attr("x", Margin.left)
       .attr("y", Margin.top);

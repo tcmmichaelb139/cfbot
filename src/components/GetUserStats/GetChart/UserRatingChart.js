@@ -64,7 +64,7 @@ function UserRatingChart(props) {
       .append("clipPath")
       .attr("id", "clip")
       .append("rect")
-      .attr("width", innerWidth - Margin.left)
+      .attr("width", innerWidth - Margin.left + 10)
       .attr("height", innerHeight)
       .attr("x", Margin.left)
       .attr("y", Margin.top);
@@ -131,7 +131,7 @@ function UserRatingChart(props) {
       .append("text")
       .attr("class", "xLabel")
       .attr("text-anchor", "end")
-      .attr("x", innerWidth)
+      .attr("x", innerWidth - 10)
       .attr("y", Height - (Margin.bottom / 5) * 3)
       .attr("fill", "rgba(163, 163, 163, 0.8)") // tailwind neutral 500
       .attr("font-size", 13)

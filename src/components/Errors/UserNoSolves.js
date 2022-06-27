@@ -1,9 +1,9 @@
-function UserZeroContents() {
+function UserNoSolves() {
   return (
     <div className="text-neutral-400 h-screen flex items-center justify-center text-4xl">
-      User has not competed in any contests
+      User has no solved problems
     </div>
   );
 }
 
-export default UserZeroContents;
+export default UserNoSolves;

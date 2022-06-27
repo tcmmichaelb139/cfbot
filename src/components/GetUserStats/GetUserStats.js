@@ -16,6 +16,7 @@ import ApiError from "../Errors/ApiError";
 import UserNotFound from "../Errors/UserNotFound";
 import NetworkError from "../Errors/NetworkError";
 import UserZeroContents from "../Errors/UserZeroContests";
+import UserNoSolves from "../Errors/UserNoSolves";
 
 function GetUserStats(props) {
   const [loading, setLoading] = useState(true);
@@ -64,7 +65,15 @@ function GetUserStats(props) {
         setJsxCharts(<UserNotFound />);
       else if (userRating === "ERR_NETWORK" || userStatus === "ERR_NETWORK")
         setJsxCharts(<NetworkError />);
-      else if (!userRating.length) {
+      else if (!userRating.length && !userStatus.length) {
+        setJsxCharts(
+          <div>
+            <UserZeroContents />
+            <UserNoSolves />
+          </div>
+        );
+      } else if (!userRating.length && userStatus.length) {
+        console.log(userStatus);
         setJsxCharts(
           <div>
             <UserZeroContents />
