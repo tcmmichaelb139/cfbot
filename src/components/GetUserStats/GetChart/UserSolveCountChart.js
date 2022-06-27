@@ -64,7 +64,7 @@ function UserSolveCountChart(props) {
     date.push(currentDate);
     solveCount.push(currentValue);
 
-    date.reverse();
+    date.sort();
     solveCount.reverse();
 
     for (let i = 1; i < solveCount.length; i++)

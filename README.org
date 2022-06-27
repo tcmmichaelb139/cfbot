@@ -1,5 +1,13 @@
 * Codeforces Bot
-** Planned Features [0/3]
-- [ ] Collapsible graphs
+** Planned Features
+*** Graphs/Charts [0/3]
 - [ ] Heatmap of problems solved
-- [ ] Tag and Rating Bar graphs
+- [ ] Tag Bar graph
+- [-] Rating Bar graph [1/3]
+  - [X] Create Graph
+  - [ ] Add interactivity with legend
+  - [ ] Add Tooltip
+
+*** Functionality [0/2]
+- [ ] Collapsible graphs
+- [ ] Add animations to graphs
