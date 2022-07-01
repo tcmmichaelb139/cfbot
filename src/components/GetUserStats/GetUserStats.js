@@ -72,7 +72,6 @@ function GetUserStats(props) {
         </div>
       );
     } else if (!userRating.length && userStatus.length) {
-      console.log(userStatus);
       setJsxCharts(
         <div>
           <UserZeroContents />

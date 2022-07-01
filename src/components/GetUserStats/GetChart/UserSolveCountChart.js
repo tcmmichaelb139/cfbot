@@ -10,6 +10,7 @@ import {
   timeParse,
   extent,
   curveStepAfter,
+  bisectCenter,
 } from "d3";
 import useResizeObserver from "../../Hooks/ResizeObserver";
 
@@ -81,7 +82,7 @@ function UserSolveCountChart(props) {
     }
 
     if (!dimensions) return;
-    const Margin = { top: 0, right: 0, bottom: 100, left: 80 };
+    const Margin = { top: 0, right: 0, bottom: 100, left: 90 };
     const Width = dimensions.width;
     const Height = dimensions.height;
     const innerWidth = Width - Margin.left - Margin.right;
@@ -118,7 +119,7 @@ function UserSolveCountChart(props) {
 
     const xScale = scaleTime()
       .domain([xFirstDate, xSecondDate])
-      .range([Margin.left + 10, innerWidth]);
+      .range([Margin.left + 10, innerWidth - 10]);
 
     const yScale = scaleLinear()
       .domain([0, solveCount[solveCount.length - 1] + 10])
@@ -161,7 +162,7 @@ function UserSolveCountChart(props) {
       .append("text")
       .attr("class", "xLabel")
       .attr("text-anchor", "end")
-      .attr("x", innerWidth)
+      .attr("x", innerWidth - 10)
       .attr("y", Height - (Margin.bottom / 5) * 3)
       .attr("fill", "rgba(163, 163, 163, 0.8)") // tailwind neutral 500
       .attr("font-size", 13)

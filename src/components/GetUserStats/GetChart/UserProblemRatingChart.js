@@ -87,15 +87,15 @@ function UserProblemRatingChart(props) {
       }
     }
 
-    let solvedData = [];
+    let allData = [];
 
     for (const ratingPoint of solvedDataTemp) {
       if (ratingPoint === undefined) continue;
-      solvedData.push(ratingPoint);
+      allData.push(ratingPoint);
     }
 
     if (!dimensions) return;
-    const Margin = { top: 0, right: 0, bottom: 100, left: 80 };
+    const Margin = { top: 0, right: 0, bottom: 100, left: 90 };
     const Width = dimensions.width;
     const Height = dimensions.height;
     const innerWidth = Width - Margin.left - Margin.right;
@@ -129,15 +129,15 @@ function UserProblemRatingChart(props) {
 
     // stacks -- broken sometimes idk why
 
-    // console.log(solvedData);
+    // console.log(allData);
     const stackGen = stack().keys(keys);
-    const layers = stackGen(solvedData);
+    const layers = stackGen(allData);
     const extent = [0, max(layers, (layer) => max(layer, (seq) => seq[1]))];
 
     // scales
     const xScale = scaleBand()
-      .domain(solvedData.map((d) => d.rating))
-      .range([Margin.left + 10, innerWidth]);
+      .domain(allData.map((d) => d.rating))
+      .range([Margin.left + 10, innerWidth - 10]);
 
     const yScale = scaleLinear()
       .domain(extent)
@@ -171,6 +171,35 @@ function UserProblemRatingChart(props) {
 
     svg.selectAll(".yAxis text").attr("fill", "#525252"); // tailwind 600
 
+    // axis labels
+
+    svg.selectAll(".xLabel").remove();
+
+    svg
+      .append("text")
+      .attr("class", "xLabel")
+      .attr("text-anchor", "end")
+      .attr("x", innerWidth - 10)
+      .attr("y", Height - (Margin.bottom / 5) * 3)
+      .attr("fill", "rgba(163, 163, 163, 0.8)") // tailwind neutral 500
+      .attr("font-size", 13)
+      .style("font-weight", 500)
+      .text("Problem rating");
+
+    svg.selectAll(".yLabel").remove();
+
+    svg
+      .append("text")
+      .attr("class", "yLabel")
+      .attr("text-anchor", "end")
+      .attr("transform", "rotate(-90)")
+      .attr("y", Margin.left / 3)
+      .attr("x", 0)
+      .attr("fill", "rgba(163, 163, 163, 0.8)") // tailwind neutral 500
+      .attr("font-size", 13)
+      .style("font-weight", 500)
+      .text("Problems solved");
+
     // bar
     svgContent
       .selectAll(".layer")
@@ -198,7 +227,7 @@ function UserProblemRatingChart(props) {
       .enter()
       .append("rect")
       .attr("class", "legendMain")
-      .attr("x", innerWidth - 60)
+      .attr("x", innerWidth - 130)
       .attr("y", (d, i) => i * 25)
       .attr("width", 30)
       .attr("height", 10)
@@ -214,7 +243,7 @@ function UserProblemRatingChart(props) {
       .enter()
       .append("text")
       .attr("class", "legendLabel")
-      .attr("x", innerWidth - 20)
+      .attr("x", innerWidth - 130 + 40)
       .attr("y", (d, i) => 10 + i * 25)
       .attr("fill", (layer) => borderColors[layer])
       .text((d) => d)

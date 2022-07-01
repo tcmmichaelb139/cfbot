@@ -45,7 +45,7 @@ function UserRatingChart(props) {
     });
 
     if (!dimensions) return;
-    const Margin = { top: 0, right: 0, bottom: 100, left: 80 };
+    const Margin = { top: 0, right: 0, bottom: 100, left: 90 };
     const Width = dimensions.width;
     const Height = dimensions.height;
     const innerWidth = Width - Margin.left - Margin.right;
@@ -83,7 +83,7 @@ function UserRatingChart(props) {
 
     const xScale = scaleTime()
       .domain([xFirstDate, xSecondDate])
-      .range([Margin.left + 10, innerWidth]);
+      .range([Margin.left + 10, innerWidth - 10]);
 
     if (currentZoomState) {
       const newXScale = currentZoomState.rescaleX(xScale);
