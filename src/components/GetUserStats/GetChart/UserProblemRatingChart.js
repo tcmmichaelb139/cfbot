@@ -8,8 +8,8 @@ import {
   scaleLinear,
   stack,
   max,
-  extent,
-  curveStepAfter,
+  pointer,
+  bisectCenter,
 } from "d3";
 import useResizeObserver from "../../Hooks/ResizeObserver";
 
@@ -200,6 +200,15 @@ function UserProblemRatingChart(props) {
       .style("font-weight", 500)
       .text("Problems solved");
 
+    // tooltip
+
+    svg.selectAll(".tooltip").remove();
+
+    const tooltip = svg
+      .append("g")
+      .attr("class", "tooltip")
+      .style("display", "none");
+
     // bar
     svgContent
       .selectAll(".layer")
@@ -212,10 +221,63 @@ function UserProblemRatingChart(props) {
       .selectAll("rect")
       .data((layer) => layer)
       .join("rect")
-      .attr("x", (seq) => xScale(seq.data.rating) + xScale.bandwidth() / 4)
-      .attr("width", xScale.bandwidth() / 2)
+      .attr(
+        "x",
+        (seq) => xScale(seq.data.rating) + (xScale.bandwidth() * 1) / 10
+      )
+      .attr("width", (xScale.bandwidth() * 4) / 5)
       .attr("y", (seq) => yScale(seq[1]))
-      .attr("height", (seq) => yScale(seq[0]) - yScale(seq[1]));
+      .attr("height", (seq) => yScale(seq[0]) - yScale(seq[1]))
+      .on("mouseenter mousemove", (event, index) => {
+        const problems = index[1] - index[0];
+        tooltip
+          .style("display", null)
+          .attr(
+            "transform",
+            "translate(" + event.layerX + ", " + event.layerY + ")"
+          ); // - 43 to get exact points
+
+        // get width of contest name
+        function getTextWidth(text, font) {
+          const canvas = document.createElement("canvas");
+          const context = canvas.getContext("2d");
+
+          context.font = font || getComputedStyle(document.body).font;
+
+          return context.measureText(text).width;
+        }
+
+        const textWidth = getTextWidth(problems);
+
+        tooltip.selectAll(".tooltipRect").remove();
+
+        tooltip
+          .append("rect")
+          .attr("class", "tooltipRect")
+          .attr("width", textWidth + 20)
+          .attr("height", 40)
+          .attr("x", -(textWidth + 20) - 10)
+          .attr("y", -33)
+          .style("stroke", "#525252") // change border color, to color of solve type (idk how)
+          .style("fill", "#171717")
+          .style("fill-opacity", ".75");
+
+        // adding solve count
+
+        tooltip.selectAll(".solveCount").remove();
+
+        tooltip
+          .append("text")
+          .attr("class", "solveCount")
+          .attr("x", -(textWidth + 20))
+          .attr("y", -7)
+          .style("fill", "rgba(163, 163, 163, 0.8)") // tailwind neutral 500
+          .style("font-weight", "500")
+          .text(() => problems);
+      })
+      .on("mouseleave", (event, index) => {
+        tooltip.style("display", "none");
+      });
 
     // legend
 

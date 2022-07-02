@@ -8,8 +8,7 @@ import { HashLoader } from "react-spinners";
 import UserRatingChart from "./GetChart/UserRatingChart";
 import UserSolveCountChart from "./GetChart/UserSolveCountChart";
 
-import UserTagChart from "./GetChart/UserTagChart";
-import UserVerdictChart from "./GetChart/UserVerdictChart";
+// bar charts
 import UserProblemRatingChart from "./GetChart/UserProblemRatingChart";
 
 import ApiError from "../Errors/ApiError";

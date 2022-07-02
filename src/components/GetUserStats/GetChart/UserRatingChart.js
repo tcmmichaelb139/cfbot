@@ -258,8 +258,9 @@ function UserRatingChart(props) {
           .attr("height", 105)
           .attr("x", xOffset - 10)
           .attr("y", 5)
-          .attr("stroke", "#525252")
-          .attr("fill", "#171717");
+          .style("stroke", "#525252")
+          .style("fill", "#171717")
+          .style("fill-opacity", ".75");
 
         // adding contest name
 
