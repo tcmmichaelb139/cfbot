@@ -258,10 +258,7 @@ function UserProblemRatingChart(props) {
           .attr("height", 40)
           .attr("x", -(textWidth + 40) - 10)
           .attr("y", -33)
-          .style(
-            "stroke",
-            select(event.originalTarget.parentNode).attr("stroke")
-          )
+          .style("stroke", select(event.target.parentNode).attr("stroke"))
           .style("fill", "#171717")
           .style("fill-opacity", ".75");
 
@@ -275,7 +272,7 @@ function UserProblemRatingChart(props) {
           .attr("x", -(textWidth + 40))
           .attr("y", -7)
           // .style("fill", "rgba(163, 163, 163, 0.8)") // tailwind neutral 500
-          .style("fill", select(event.originalTarget.parentNode).attr("stroke")) // tailwind neutral 500
+          .style("fill", select(event.target.parentNode).attr("stroke")) // tailwind neutral 500
           .style("font-weight", "500")
           .text(() => problems);
       })
