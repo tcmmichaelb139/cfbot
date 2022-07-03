@@ -256,9 +256,12 @@ function UserProblemRatingChart(props) {
           .attr("class", "tooltipRect")
           .attr("width", textWidth + 20)
           .attr("height", 40)
-          .attr("x", -(textWidth + 20) - 10)
+          .attr("x", -(textWidth + 40) - 10)
           .attr("y", -33)
-          .style("stroke", "#525252") // change border color, to color of solve type (idk how)
+          .style(
+            "stroke",
+            select(event.originalTarget.parentNode).attr("stroke")
+          )
           .style("fill", "#171717")
           .style("fill-opacity", ".75");
 
@@ -269,9 +272,10 @@ function UserProblemRatingChart(props) {
         tooltip
           .append("text")
           .attr("class", "solveCount")
-          .attr("x", -(textWidth + 20))
+          .attr("x", -(textWidth + 40))
           .attr("y", -7)
-          .style("fill", "rgba(163, 163, 163, 0.8)") // tailwind neutral 500
+          // .style("fill", "rgba(163, 163, 163, 0.8)") // tailwind neutral 500
+          .style("fill", select(event.originalTarget.parentNode).attr("stroke")) // tailwind neutral 500
           .style("font-weight", "500")
           .text(() => problems);
       })
