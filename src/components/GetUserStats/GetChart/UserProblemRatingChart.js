@@ -8,8 +8,6 @@ import {
   scaleLinear,
   stack,
   max,
-  pointer,
-  bisectCenter,
 } from "d3";
 import useResizeObserver from "../../Hooks/ResizeObserver";
 
@@ -311,6 +309,14 @@ function UserProblemRatingChart(props) {
       .attr("fill", (layer) => borderColors[layer])
       .text((d) => d)
       .attr("font-size", 13);
+
+    // change global stuff
+
+    // fonts
+    svg
+      .selectAll("text")
+      .style("font-family", "'Fira Code', monospace")
+      .attr("font-weight", "300");
   }, [data, dimensions]);
 
   return (

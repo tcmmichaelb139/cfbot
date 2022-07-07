@@ -14,6 +14,8 @@ import {
 } from "d3";
 import useResizeObserver from "../../Hooks/ResizeObserver";
 
+import convertToTimeZone from "../../Util/convertToTimeZone";
+
 function UserSolveCountChart(props) {
   const [data, setData] = useState(props.data);
   const wrapperRef = useRef();
@@ -29,12 +31,10 @@ function UserSolveCountChart(props) {
 
     const solveCount = [];
 
-    const dateVar = new Date();
-
     for (let i = 0; i < data.length; i++) {
-      data[i].creationTimeSeconds -= dateVar.getTimezoneOffset() * 60;
-      data[i].creationTimeSeconds -=
-        (data[i].creationTimeSeconds % 86400) - 86400;
+      data[i].creationTimeSeconds = convertToTimeZone(
+        data[i].creationTimeSeconds
+      );
     }
 
     let currentDate = data[0].creationTimeSeconds;
