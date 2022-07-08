@@ -12,3 +12,6 @@
 *** Functionality [0/2]
 - [ ] Collapsible graphs
 - [ ] Add animations to graphs
+
+*** Other
+- [ ] Refactor to make it more react like
