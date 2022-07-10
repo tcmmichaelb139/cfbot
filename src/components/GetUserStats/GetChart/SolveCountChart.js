@@ -10,13 +10,12 @@ import {
   timeParse,
   extent,
   curveStepAfter,
-  bisectCenter,
 } from "d3";
 import useResizeObserver from "../../Hooks/ResizeObserver";
 
 import convertToTimeZone from "../../Util/convertToTimeZone";
 
-function UserSolveCountChart(props) {
+function SolveCountChart(props) {
   const [data, setData] = useState(props.data);
   const wrapperRef = useRef();
   const svgRef = useRef();
@@ -216,4 +215,4 @@ function UserSolveCountChart(props) {
   );
 }
 
-export default UserSolveCountChart;
+export default SolveCountChart;

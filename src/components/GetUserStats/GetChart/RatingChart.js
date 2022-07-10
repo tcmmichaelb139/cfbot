@@ -16,7 +16,7 @@ import {
 } from "d3";
 import useResizeObserver from "../../Hooks/ResizeObserver";
 
-function UserRatingChart(props) {
+function RatingChart(props) {
   const [data, setData] = useState(props.data);
   const wrapperRef = useRef();
   const dimensions = useResizeObserver(wrapperRef);
@@ -444,4 +444,4 @@ function UserRatingChart(props) {
   );
 }
 
-export default UserRatingChart;
+export default RatingChart;

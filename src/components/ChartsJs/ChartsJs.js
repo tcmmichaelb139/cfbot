@@ -4,26 +4,20 @@ import { useState, useEffect } from "react";
 // loading
 import { HashLoader } from "react-spinners";
 
-// line charts
-import RatingChart from "./GetChart/RatingChart";
-import SolveCountChart from "./GetChart/SolveCountChart";
-
-// bar charts
-import ProblemRatingChart from "./GetChart/ProblemRatingChart";
-
 import ApiError from "../Errors/ApiError";
 import UserNotFound from "../Errors/UserNotFound";
 import NetworkError from "../Errors/NetworkError";
 import UserZeroContents from "../Errors/UserZeroContests";
 import UserNoSolves from "../Errors/UserNoSolves";
 
-function GetUserStats(props) {
+function ChartsJs(props) {
   const [loading, setLoading] = useState(true);
 
   const [userRating, setUserRating] = useState();
   const [userStatus, setUserStatus] = useState();
   const [jsxCharts, setJsxCharts] = useState();
 
+  // gets userRating aka contests
   useEffect(() => {
     setLoading(true);
     axios
@@ -36,6 +30,7 @@ function GetUserStats(props) {
       });
   }, [props]);
 
+  // gets userStatus aka submissions
   useEffect(() => {
     setLoading(true);
     axios
@@ -71,31 +66,7 @@ function GetUserStats(props) {
         </div>
       );
     } else if (!userRating.length && userStatus.length) {
-      setJsxCharts(
-        <div>
-          <UserZeroContents />
-          <div className="bg-neutral-900 shadow-md h-96 mb-4">
-            <SolveCountChart handle={props.handle} data={userStatus} />
-          </div>
-          <div className="bg-neutral-900 shadow-md h-96 mb-4">
-            <ProblemRatingChart data={userStatus} />
-          </div>
-        </div>
-      );
     } else {
-      setJsxCharts(
-        <div>
-          <div className="bg-neutral-900 shadow-md h-96 mb-4">
-            <RatingChart handle={props.handle} data={userRating} />
-          </div>
-          <div className="bg-neutral-900 shadow-md h-96 mb-4">
-            <SolveCountChart handle={props.handle} data={userStatus} />
-          </div>
-          <div className="bg-neutral-900 shadow-md h-96 mb-4">
-            <ProblemRatingChart data={userStatus} />
-          </div>
-        </div>
-      );
     }
     setTimeout(() => {
       setLoading(false);
@@ -112,4 +83,4 @@ function GetUserStats(props) {
   );
 }
 
-export default GetUserStats;
+export default ChartsJs;
