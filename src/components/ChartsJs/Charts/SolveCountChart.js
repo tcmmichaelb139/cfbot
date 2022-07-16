@@ -14,6 +14,8 @@ import {
 import "chartjs-adapter-moment";
 import { Line } from "react-chartjs-2";
 
+import convertToTimeZone from "../../Util/convertToTimeZone";
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -25,7 +27,7 @@ ChartJS.register(
   Legend
 );
 
-function RatingChart(props) {
+function SolveCountChart(props) {
   const [data, setData] = useState(props.data);
   const [jsxChart, setJsxChart] = useState();
 
@@ -34,20 +36,64 @@ function RatingChart(props) {
   }, [props]);
 
   useEffect(() => {
-    const allData = data.map((contest) => {
-      return {
-        rating: contest.newRating,
-        date: new Date(contest.ratingUpdateTimeSeconds * 1000),
-        contestName: contest.contestName,
-        contestId: contest.contestId,
-        rank: contest.rank,
-      };
-    });
+    const date = [];
+
+    const solveCount = [];
+
+    for (let i = 0; i < data.length; i++) {
+      data[i].creationTimeSeconds = convertToTimeZone(
+        data[i].creationTimeSeconds
+      );
+    }
+
+    let currentDate = data[0].creationTimeSeconds;
+    let currentValue = 0;
+
+    const solvedProblem = {};
+
+    for (const problem of data) {
+      if (problem.verdict === "OK") {
+        if (solvedProblem[problem.problem.contestId] == undefined)
+          solvedProblem[problem.problem.contestId] = {};
+        if (
+          solvedProblem[problem.problem.contestId][problem.problem.index] ==
+          undefined
+        ) {
+          solvedProblem[problem.problem.contestId][problem.problem.index] = 1;
+          if (currentDate != problem.creationTimeSeconds) {
+            date.push(currentDate);
+            solveCount.push(currentValue);
+            currentDate = problem.creationTimeSeconds;
+            currentValue = 0;
+          }
+          currentValue++;
+        }
+      }
+    }
+
+    date.push(currentDate);
+    solveCount.push(currentValue);
+
+    date.sort();
+    solveCount.reverse();
+
+    for (let i = 1; i < solveCount.length; i++)
+      solveCount[i] += solveCount[i - 1];
+
+    const allData = [];
+
+    for (let i = 0; i < solveCount.length; i++) {
+      date[i] = new Date(date[i] * 1000);
+      allData.push({
+        date: date[i],
+        solveCount: solveCount[i],
+      });
+    }
 
     const graphData = allData.map((contest) => {
       return {
         x: contest.date,
-        y: contest.rating,
+        y: contest.solveCount,
       };
     });
 
@@ -66,6 +112,11 @@ function RatingChart(props) {
       responsive: true,
       maintainAspectRatio: false,
       devicePixelRatio: 1.5,
+      elements: {
+        point: {
+          radius: 0,
+        },
+      },
       scales: {
         x: {
           type: "time",
@@ -84,7 +135,7 @@ function RatingChart(props) {
         y: {
           title: {
             display: true,
-            text: "Rating",
+            text: "Problems solved",
           },
         },
       },
@@ -106,4 +157,4 @@ function RatingChart(props) {
   return <>{jsxChart}</>;
 }
 
-export default RatingChart;
+export default SolveCountChart;

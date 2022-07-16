@@ -1,14 +1,26 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { defaults } from "chart.js";
 
 // loading
 import { HashLoader } from "react-spinners";
+
+// line charts
+import RatingChart from "./Charts/RatingChart";
+import SolveCountChart from "./Charts/SolveCountChart";
 
 import ApiError from "../Errors/ApiError";
 import UserNotFound from "../Errors/UserNotFound";
 import NetworkError from "../Errors/NetworkError";
 import UserZeroContents from "../Errors/UserZeroContests";
 import UserNoSolves from "../Errors/UserNoSolves";
+
+// defaults
+defaults.font.family = "'Fira Code', monospace";
+defaults.color = "rgba(115, 115, 115, 1)"; // tailwind neutral 500
+defaults.borderColor = "rgba(38, 38, 38, 1)"; // tailwind neutral 500
+defaults.backgroundColor = "rgba(23, 23, 23, 1)"; // tailwind neutral 500
+defaults.plugins.title.color = "rgba(163, 163, 163, 0.8)"; // tailwind neutral 400
 
 function ChartsJs(props) {
   const [loading, setLoading] = useState(true);
@@ -66,7 +78,25 @@ function ChartsJs(props) {
         </div>
       );
     } else if (!userRating.length && userStatus.length) {
+      setJsxCharts(
+        <div>
+          <UserZeroContents />
+          <div className="bg-neutral-900 shadow-md h-96 mb-4">
+            <SolveCountChart handle={props.handle} data={userStatus} />
+          </div>
+        </div>
+      );
     } else {
+      setJsxCharts(
+        <div>
+          <div className="bg-neutral-900 shadow-md h-96 p-1 mb-4">
+            <RatingChart handle={props.handle} data={userRating} />
+          </div>
+          <div className="bg-neutral-900 shadow-md h-96 p-1 mb-4">
+            <SolveCountChart handle={props.handle} data={userStatus} />
+          </div>
+        </div>
+      );
     }
     setTimeout(() => {
       setLoading(false);

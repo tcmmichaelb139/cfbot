@@ -55,7 +55,7 @@ function GetProblemHome() {
 
       <Header />
 
-      <main className="ml-64">
+      <main className="ml-[17rem]">
         <div className="m-4">
           <form onSubmit={onFormSubmit}>
             <input
