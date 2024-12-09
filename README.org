@@ -1,17 +1,3 @@
 * Codeforces Bot
-** Planned Features
-*** Graphs/Charts [0/3]
-- [ ] Heatmap of problems solved
-- [ ] Tag Bar graph
-- [-] Rating Bar graph [1/3]
-  - [X] Create Graph
-  - [ ] Add interactivity with legend
-  - [ ] Add Tooltip
-- [ ] Scatter plot - problem rating with respect to submission count
 
-*** Functionality [0/2]
-- [ ] Collapsible graphs
-- [ ] Add animations to graphs
-
-*** Other
-- [ ] Refactor to make it more react like
+[[./assets/website.png]]
